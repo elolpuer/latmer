@@ -1,0 +1,52 @@
+{{> navbar_user}}
+<div class="title"><h2>Add your {{merch_Title}}</h2></div>
+{{#if isProducts}}
+    <form action="/user/products" method="POST">
+{{else}}
+    <form action="/user/services" method="POST">
+{{/if}}  
+    <input class="form-control form-control-lg" type="text" placeholder="Name" name="naming" >
+    <input class="form-control form-control-lg" type="text" placeholder="Description" name="description" >
+    {{#if isProducts}}
+    <p>
+        <label for="localdate">From: </label>
+        <input type="date" id="localdate" name="date_create" >
+    </p>
+    <p>
+        <label for="localdate">To: </label>
+        <input type="date" id="localdate" name="date_destroy" >
+    </p>
+    {{/if}}
+    <button type="submit" class="btn btn-dark">Add</button>   
+</form>
+{{#if isProducts}}    
+        {{#each merch_Array}}
+            <form action="/user/products-{{dataValues.id}}" method="POST">
+                <div>
+                    <p>{{dataValues.name}}</p>
+                    <p>{{dataValues.description}}</p>
+                    {{#if dataValues.when_create}}
+                        <p><time>{{dataValues.when_create}}</time></p>
+                        <p><time>{{dataValues.when_w_destroy}}</time></p>
+                    {{/if}}
+                    <p>{{dataValues.image}}</p>
+                </div>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        {{/each}}
+    {{else}}
+        {{#each merch_Array}}
+            <form action="/user/services-{{dataValues.id}}" method="POST">
+                <div>
+                    <p>{{dataValues.name}}</p>
+                    <p>{{dataValues.description}}</p>
+                    {{#if dataValues.when_create}}
+                        <p><time>{{dataValues.when_create}}</time></p>
+                        <p><time>{{dataValues.when_w_destroy}}</time></p>
+                    {{/if}}
+                    <p>{{dataValues.image}}</p>
+                </div>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        {{/each}}
+{{/if}}

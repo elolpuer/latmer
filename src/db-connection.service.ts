@@ -9,12 +9,10 @@ export class DBConnectionService implements TypeOrmOptionsFactory {
             type: 'postgres',
             host: process.env.DATABASE_HOST,
             port: Number(process.env.DATABASE_PORT),
-            username: process.env.DATABASE_USER,
-            password: process.env.DATABASE_PASSWORD,
-            database: process.env.DATABASE_DB,
+            username: `egorg`,
+            password: `password`,
+            database: `latmer_nest`,
             synchronize: true,
-            dropSchema: true,
-            logging: true,
             entities: ['dist/**/*.entity.js']
         }
     }

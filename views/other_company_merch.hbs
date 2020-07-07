@@ -1,0 +1,19 @@
+{{#if merch.length}}
+    <h1>Merch</h1>
+    {{#each merch}}
+        
+            <div>
+            <p>{{dataValues.name}}</p>
+            <p>{{dataValues.description}}</p>
+            {{#if dataValues.when_create}}
+              <p><time>{{dataValues.when_create}}</time></p>
+              <p><time>{{dataValues.when_w_destroy}}</time></p>
+            {{/if}}
+            <p>{{dataValues.image}}</p>
+            </div>
+            </a>
+
+    {{/each}}
+    {{else}}
+    <h1>No merch</h1>
+{{/if}}
