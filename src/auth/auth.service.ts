@@ -17,25 +17,7 @@ export class AuthService {
     }
 
     async registerUser(createUserDto: CreateUserDto):Promise<any>{
-        try {
-            console.log(createUserDto.isCompany)
-
-
-            const userEmail = await this.userService.findOneEmail(createUserDto.email)
-
-            if (userEmail) {
-                return console.error('User with this email has been create')
-            }
-
-            const userName = await this.userService.findOneName(createUserDto.username)
-        
-            console.log(userName, 'Name')
-
-            if (userName){
-                return console.error('User with this username has been create')
-            }
-
-
+        try { 
             await this.userService.createUser(
                 createUserDto.email,
                 createUserDto.username,
