@@ -12,22 +12,24 @@ export class UserService {
     ) {}
 
     async findOneEmail(email: string): Promise<User> {
-        return await this.userRepository.findOne(email)
+        return await this.userRepository.findOne({email})
     }
 
     async findOneName(username: string): Promise<User> {
-        return await this.userRepository.findOne(username)
+        return await this.userRepository.findOne({username})
     }
 
-    async createUser(email: string, username: string, password: string, IsCompany: boolean ):Promise<any>{
-        const hash = await bcrypt.hash(password, 13)
+    async createUser(email: string, username: string, password: string, IsCompany: boolean ):Promise<void>{
+        const hash = await bcrypt.hash(password, 13);
 
-        await this.userRepository.create({
-            username,
-            email,
-            password: hash,
-            IsCompany
-        })
+        const user = new User;
+            user.email = email;
+            user.username = username;
+            user.password = hash;
+            user.IsCompany = IsCompany;
+
+        await this.userRepository.save(user);
+            
     }
 
     async remove(id: string): Promise<void> {

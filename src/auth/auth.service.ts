@@ -17,19 +17,35 @@ export class AuthService {
     }
 
     async registerUser(createUserDto: CreateUserDto):Promise<any>{
-        const userEmail = await this.userService.findOneEmail(createUserDto.email)
+        try {
+            console.log(createUserDto.isCompany)
 
-        if (userEmail) {
-            return new Error('User with this email has been create')
-        }
 
-        const userName = await this.userService.findOneName(createUserDto.username)
+            const userEmail = await this.userService.findOneEmail(createUserDto.email)
+
+            if (userEmail) {
+                return console.error('User with this email has been create')
+            }
+
+            const userName = await this.userService.findOneName(createUserDto.username)
         
-        if (userName){
-            return new Error('User with this username has been create')
-        }
+            console.log(userName, 'Name')
 
-        await this.userService.createUser(createUserDto.email, createUserDto.username, createUserDto.password, createUserDto.isCompany)
+            if (userName){
+                return console.error('User with this username has been create')
+            }
+
+
+            await this.userService.createUser(
+                createUserDto.email,
+                createUserDto.username,
+                createUserDto.password,
+                createUserDto.isCompany
+                )    
+        } catch (error) {
+            console.error(error)
+        }
+        
     
     }
 }

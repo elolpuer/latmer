@@ -1,4 +1,4 @@
-import { Controller, Get, Render, Post, Body, Redirect } from '@nestjs/common';
+import { Controller, Get, Render, Post, Body, Response } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 
@@ -13,12 +13,12 @@ export class AuthController {
     }
 
     @Post('sign_up')
-    async register(@Body() createUserDto: CreateUserDto): Promise<any>{
+    async register(@Body() createUserDto: CreateUserDto, @Response() res): Promise<any>{
         try {
-            this.authService.registerUser(createUserDto)
-                .then(()=>{
-                    @Redirect('/', 200)
-                })
+            if(typeof(this.authService.registerUser(createUserDto)) === typeof('H')) {
+                res.status(400)
+            }
+
         } catch (error) {
             console.error(error)
         } 
@@ -28,5 +28,10 @@ export class AuthController {
     @Render('sign_in')
     outputLogin(){
         return { title: 'Sign In' }
+    }
+
+    @Post('sign_in')
+    login(@Response() res){
+        res.redirect('/')
     }
 }

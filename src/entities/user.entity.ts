@@ -1,25 +1,25 @@
 import {
     Entity,
     Column,
-    PrimaryGeneratedColumn  
-} from 'typeorm'
-import { IsEmail } from 'class-validator'
+    PrimaryGeneratedColumn,  
+} from 'typeorm';
 
-@Entity()
-export class User {
-    @PrimaryGeneratedColumn()
-    id: number;
+@Entity('users')
+export class User{
+
+    @PrimaryGeneratedColumn({type: 'integer'})
+    id: string;
 
     @Column()
-    @IsEmail()
-    email: string
+    email: string;
 
     @Column({unique: true})
     username: string;
 
     @Column()
-    password: string
+    password: string;
 
     @Column()
-    IsCompany: boolean
-}
+    IsCompany: boolean;
+
+}   
