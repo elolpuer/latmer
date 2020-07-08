@@ -1,3 +1,3 @@
-export class RenderPage{
+export class RenderPageDto {
     title: string
 }

@@ -1,18 +1,19 @@
 import { Controller, Get, Render, Post, Body, Res } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { UserService } from '../user/user.service'
-import { CreateUserDto } from 'src/dto/create-user.dto';
 import { Response } from 'express';
-import { RenderPage } from '../dto/render.dto'
+
+import { CreateUserDto } from 'src/dto/create-user.dto';
+import { RenderPageDto } from '../dto/render.dto'
 import { AuthUserDto } from 'src/dto/auth-user.dto';
+
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService, private userService: UserService){}
+    constructor(private authService: AuthService){}
 
     @Get('sign_up')
     @Render('sign_up')
-    outputRegister(): RenderPage{
+    outputRegister(): RenderPageDto {
         return { title: 'Sign Up'}
     }
 
@@ -29,7 +30,7 @@ export class AuthController {
 
     @Get('sign_in')
     @Render('sign_in')
-    outputLogin(): RenderPage {
+    outputLogin(): RenderPageDto {
         return { title: 'Sign In' }
     }
 
