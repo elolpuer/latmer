@@ -4,8 +4,8 @@ import {
     PrimaryGeneratedColumn,  
 } from 'typeorm';
 
-@Entity('users')
-export class User{
+@Entity('consumers')
+export class Consumer{
 
     @PrimaryGeneratedColumn({type: 'integer'})
     id: string;
@@ -19,7 +19,4 @@ export class User{
     @Column()
     password: string;
 
-    @Column()
-    IsCompany: boolean;
-
-}   
+}

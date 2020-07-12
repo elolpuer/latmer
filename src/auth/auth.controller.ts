@@ -11,13 +11,13 @@ import { AuthService } from './auth.service';
 export class AuthController {
     constructor(private authService: AuthService){}
 
-    @Get('sign_up')
-    @Render('sign_up')
+    @Get('company')
+    @Render('sign_up_company')
     outputRegister(): RenderPageDto {
         return { title: 'Sign Up'}
     }
 
-    @Post('sign_up')
+    @Post('company')
     async register(@Body() createUserDto: CreateUserDto, @Res() res: Response): Promise<any>{
         try { 
             this.authService.registerUser(createUserDto,res)
@@ -28,13 +28,13 @@ export class AuthController {
         } 
     }
 
-    @Get('sign_in')
-    @Render('sign_in')
+    @Get('consumer')
+    @Render('sign_up_consumer')
     outputLogin(): RenderPageDto {
         return { title: 'Sign In' }
     }
 
-    @Post('sign_in')
+    @Post('consumer')
     async login(@Body() authUserDto: AuthUserDto, @Res() res: Response): Promise<any>{
         try {
             await this.authService.loginUser(authUserDto, res)
