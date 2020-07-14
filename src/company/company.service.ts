@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Company } from 'src/entities/company.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt'
+import { AllCompaniesDto } from 'src/dto/all.companies.dto';
 
 @Injectable()
 export class CompanyService {
@@ -11,6 +12,10 @@ export class CompanyService {
         private companyRepository: Repository<Company>
     ){}
     
+    async findAll(): Promise<AllCompaniesDto[]>{
+        return await this.companyRepository.find()
+    }
+
     async findOneEmail(email: string): Promise<Company>{
         return await this.companyRepository.findOne({email})
     }
@@ -30,4 +35,6 @@ export class CompanyService {
             
         return await this.companyRepository.save(company)
     }
+
+    
 }

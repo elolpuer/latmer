@@ -1,5 +1,5 @@
-import { Controller, Get, Render, Post, Body, Res } from '@nestjs/common';
-import { Response } from 'express';
+import { Controller, Get, Render, Post, Body, Res, Req } from '@nestjs/common';
+import { Response, Request } from 'express';
 
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { RenderPageDto } from '../dto/render.dto'
@@ -53,10 +53,14 @@ export class AuthController {
     }
 
     @Post('login')
-    async login(@Body() authUserDto: AuthUserDto, @Res() res: Response): Promise<any>{
-        return this.authService.login(authUserDto)
-            .then((token)=>{console.log(token)})
-            .then(()=>{res.redirect('/')})
-
+    async login(@Body() authUserDto: AuthUserDto, @Res() res: Response, @Req() req: Request): Promise<any>{
+        try {
+            await this.authService.login(authUserDto, res)
+                .then((user)=>{req.session.user = user})
+                .then(()=>{res.redirect('/')})
+        } catch (error) {
+            console.error(error)
+        }
+        
     }
 }

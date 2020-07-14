@@ -3,12 +3,11 @@ import { Response } from 'express';
 
 import { CompanyService } from '../company/company.service';
 import { ConsumerService } from '../consumer/consumer.service';
-import { JwtService } from '@nestjs/jwt'
 
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { AuthUserDto } from 'src/dto/auth-user.dto';
-import { UserRO, UserData } from '../dto/user.interface'
 import { Company } from '../entities/company.entity'
+import { SessionUserDto } from '../dto/session-user.dto'
 
 import * as bcrypt from 'bcrypt'
 import * as jwt from 'jsonwebtoken'
@@ -18,38 +17,21 @@ export class AuthService {
     constructor(
         private readonly companyService: CompanyService,
         private readonly consumerService: ConsumerService,
-        private readonly jwtService: JwtService
     ){}
-
-    async validateCompany(email: string, password: string): Promise<any> {
-        const user = await this.companyService.findOneEmail(email)
-
-        if (user && bcrypt.compare(password, user.password)){
-            const { password, ...result } = user;
-            return result;
-        }
-        return null;
-    }
-
-    async validateConsumer(email: string, password: string): Promise<any> {
-        const user = await this.consumerService.findOneEmail(email)
-
-        if (user && bcrypt.compare(password, user.password)){
-            const { password, ...result } = user;
-            return result;
-        }
-        return null;
-    }
 
     async registerCompany(createUserDto: CreateUserDto, res: Response):Promise<any>{
         try {
-            const userEmail = await this.companyService.findOneEmail(createUserDto.email)
+            const userEmailComp = await this.companyService.findOneEmail(createUserDto.email)
+            const userEmailCons = await this.consumerService.findOneEmail(createUserDto.email)
             const userNameComp = await this.companyService.findOneName(createUserDto.username)
             const userNameCons = await this.consumerService.findOneName(createUserDto.username)
 
-            if (userEmail) {
+            if (userEmailComp) {
                 return res.status(400).json({message:'User with this email has been create'})
-            }      
+            }  
+            if (userEmailCons) {
+                return res.status(400).json({message:'User with this email has been create'})
+            }  
             if (userNameComp){
                 return res.status(400).json({message:'User with this username has been create'})
             }
@@ -57,12 +39,11 @@ export class AuthService {
                 return res.status(400).json({message:'User with this username has been create'})
             }
 
-            const createdCompany = await this.companyService.createCompany(
+            await this.companyService.createCompany(
                 createUserDto.email,
                 createUserDto.username,
                 createUserDto.password,
                 )
-            // return this.buildUserRO(createdCompany)
         } catch (error) {
             console.error(error)
         }
@@ -70,13 +51,17 @@ export class AuthService {
 
     async registerConsumer(createUserDto: CreateUserDto, res: Response):Promise<any>{
         try {
-            const userEmail = await this.consumerService.findOneEmail(createUserDto.email)
+            const userEmailComp = await this.companyService.findOneEmail(createUserDto.email)
+            const userEmailCons = await this.consumerService.findOneEmail(createUserDto.email)
             const userNameComp = await this.companyService.findOneName(createUserDto.username)
             const userNameCons = await this.consumerService.findOneName(createUserDto.username)
 
-            if (userEmail) {
+            if (userEmailComp) {
                 return res.status(400).json({message:'User with this email has been create'})
-            }      
+            }     
+            if (userEmailCons) {
+                return res.status(400).json({message:'User with this email has been create'})
+            }   
             if (userNameComp){
                 return res.status(400).json({message:'User with this username has been create'})
             }
@@ -94,37 +79,40 @@ export class AuthService {
         }
     }
 
-    async login(user: any) {
-        const payload = {username: user.username, id: user.id, isCompany: user.isCompany}
-        console.log(`payload: ${payload}`)
-        return {
-            access_token: this.jwtService.sign(payload),
-        }
+    async login(authUserDto: AuthUserDto, res: Response): Promise<any>{
+        const userComp = await this.companyService.findOneEmail(authUserDto.email)
+        const userCons = await this.consumerService.findOneEmail(authUserDto.email)
 
+        if (userComp) {
+            const isMatch = await bcrypt.compare(authUserDto.password, userComp.password)
+
+            if (!isMatch) {
+                return res.status(400).json({message:'Wrong params'})
+            }
+
+            return await this.createSessionUser(userComp.id, userComp.IsCompany)
+            
+            
+        } else if (userCons){
+            const isMatch = await bcrypt.compare(authUserDto.password, userCons.password)
+            
+            if (!isMatch) {
+                return res.status(400).json({message:'Wrong params'})
+            }
+
+            return await this.createSessionUser(userCons.id, userCons.IsCompany)
+
+        }
+        else {
+            return res.status(404).json({message:'User with this params don`t exist'})
+        }
+        
     }
 
-    // public generateJWT(user): Promise<any>{
-    //     const today = new Date()
-    //     const exp = new Date(today)
-    //     exp.setDate(today.getDate()+60)
-
-    //     return jwt.sign({
-    //         id: user.id,
-    //         username: user.username,
-    //         email: user.email,
-    //         exp: exp.getTime() / 1000,
-    //     }, process.env.SECRET)
-
-    // }
-
-    // private buildUserRO(user: Company){
-    //     const userRO = {
-    //         id: user.id,
-    //         username: user.username,
-    //         email: user.email,
-    //         token: this.generateJWT(user)
-    //     }
-
-    //     return {user: userRO}
-    // }
+    async createSessionUser(id: string, isCompany: boolean): Promise<SessionUserDto> {
+        return {
+            id,
+            isCompany
+        }
+    }
 }
