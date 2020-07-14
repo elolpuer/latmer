@@ -1,4 +1,4 @@
-<form action="/auth/sign_in" method="POST">
+<form action="/auth/login" method="POST">
   <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
     <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
@@ -9,5 +9,12 @@
     <input type="password" class="form-control" id="exampleInputPassword1" name="password">
   </div>
   <button type="submit" class="btn btn-primary">Login</button>
-  <small id="emailHelp" class="form-text text-muted"><a href="/auth/sign_up">If you do not register, you can do it</a></small>
+  </br>
+  <div>
+    <h3>Register</h3>
+  </div>
+  <div>
+  <button type="button" class="btn btn-dark"><a href="/auth/company">Company</a></button>
+  <button type="button" class="btn btn-dark"><a href="/auth/consumer">Consumer</a></button>
+  </div>
 </form>

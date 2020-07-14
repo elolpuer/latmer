@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Consumer } from 'src/entities/consumers.entity';
 import { Repository } from 'typeorm'
 import * as bcrypt from 'bcrypt'
-import { ConsumerController } from './consumer.controller';
 
 
 @Injectable()
@@ -24,11 +23,12 @@ export class ConsumerService {
     async createConsumer(email: string, username: string, password: string ): Promise<void> {
         const hash = await bcrypt.hash(password, 13)
 
-        const company = new Consumer
-            company.email = email;
-            company.username = username;
-            company.password = hash
+        const consumer = new Consumer
+            consumer.email = email;
+            consumer.username = username;
+            consumer.password = hash
+            consumer.IsCompany = false
             
-        await this.companyRepository.save(company)
+        await this.companyRepository.save(consumer)
     }
 }

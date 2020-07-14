@@ -19,14 +19,15 @@ export class CompanyService {
         return await this.companyRepository.findOne({username})
     }
 
-    async createCompany(email: string, username: string, password: string ): Promise<void> {
+    async createCompany(email: string, username: string, password: string ): Promise<Company> {
         const hash = await bcrypt.hash(password, 13)
 
         const company = new Company
             company.email = email;
             company.username = username;
-            company.password = hash
+            company.password = hash;
+            company.IsCompany = true;
             
-        await this.companyRepository.save(company)
+        return await this.companyRepository.save(company)
     }
 }

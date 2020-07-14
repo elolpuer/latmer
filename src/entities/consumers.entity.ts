@@ -19,4 +19,7 @@ export class Consumer{
     @Column()
     password: string;
 
+    @Column()
+    IsCompany: boolean
+
 }

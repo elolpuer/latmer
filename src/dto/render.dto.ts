@@ -1,3 +1,3 @@
-export class RenderPageDto {
+export interface RenderPageDto {
     title: string
 }

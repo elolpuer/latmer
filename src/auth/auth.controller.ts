@@ -13,15 +13,15 @@ export class AuthController {
 
     @Get('company')
     @Render('sign_up_company')
-    outputRegister(): RenderPageDto {
+    outputRegisterCompany(): RenderPageDto {
         return { title: 'Sign Up'}
     }
 
     @Post('company')
-    async register(@Body() createUserDto: CreateUserDto, @Res() res: Response): Promise<any>{
+    async registerCompany(@Body() createUserDto: CreateUserDto, @Res() res: Response): Promise<any>{
         try { 
-            this.authService.registerUser(createUserDto,res)
-                .then(()=>{res.redirect('/auth/sign_in')})
+            this.authService.registerCompany(createUserDto,res)
+                .then(()=>{res.redirect('/auth/login')})
 
         } catch (error) {
             console.error(error)
@@ -30,19 +30,33 @@ export class AuthController {
 
     @Get('consumer')
     @Render('sign_up_consumer')
-    outputLogin(): RenderPageDto {
+    outputRegisterConsumer(): RenderPageDto {
         return { title: 'Sign In' }
     }
 
     @Post('consumer')
-    async login(@Body() authUserDto: AuthUserDto, @Res() res: Response): Promise<any>{
-        try {
-            await this.authService.loginUser(authUserDto, res)
-                .then(()=>{ res.redirect('/') })
+    async registerConsumer(@Body() createUserDto: CreateUserDto, @Res() res: Response): Promise<any>{
+        try { 
+            this.authService.registerConsumer(createUserDto,res)
+                .then(()=>{res.redirect('/auth/login')})
+
         } catch (error) {
             console.error(error)
-        }
-        
-        
+        } 
+    }
+
+
+    @Get('login')
+    @Render('sign_in')
+    outputLogin(): RenderPageDto {
+        return { title: 'Sign In' }
+    }
+
+    @Post('login')
+    async login(@Body() authUserDto: AuthUserDto, @Res() res: Response): Promise<any>{
+        return this.authService.login(authUserDto)
+            .then((token)=>{console.log(token)})
+            .then(()=>{res.redirect('/')})
+
     }
 }

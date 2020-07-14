@@ -19,4 +19,7 @@ export class Company{
     @Column()
     password: string;
 
+    @Column()
+    IsCompany: boolean
+
 }
