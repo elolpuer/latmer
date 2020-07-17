@@ -1,4 +1,4 @@
-import { Controller, Get, Render, Req, Param } from '@nestjs/common';
+import { Controller, Get, Render, Param, Req } from '@nestjs/common';
 import { CompanyService } from 'src/company/company.service';
 import { Request } from 'express'
 import { RenderPageDto } from '../dto/render.dto'
@@ -8,15 +8,15 @@ export class OtherCompanyController {
     constructor(private companyService: CompanyService){}
     @Get()
     @Render('other_company')
-    async other_company(@Req() req: Request, @Param() params): Promise<RenderPageDto> {
+    async other_company(@Req() req: Request, @Param('username') username: string): Promise<RenderPageDto> {
         try {
-            const otherCompany = await this.companyService.findOneName(params.username)
+            const otherCompany = await this.companyService.findOneName(username)
             const company = {
                 id: otherCompany.id,
                 username: otherCompany.username,
                 email: otherCompany.email
             } 
-            return { title: `${params.username}`, company }
+            return { title: `${username}`, user: req.session.user, company }
         } catch (error) {
             console.error(error)
         }
@@ -25,17 +25,17 @@ export class OtherCompanyController {
 
     @Get('products-:id')
     @Render('other_company_merch')
-    async other_company_products(@Param() params): Promise<RenderPageDto> {
-        const other_company_products = await this.companyService.findAllProducts(params.id)
+    async other_company_products(@Req() req: Request, @Param('id') id: string): Promise<RenderPageDto> {
+        const other_company_products = await this.companyService.findAllProducts(id)
 
-        return { title: `Products`, merch_Array: other_company_products}
+        return { title: `Products`, user: req.session.user, merch_Array: other_company_products}
     }
 
     @Get('services-:id')
     @Render('other_company_merch')
-    async other_company_services(@Param() params): Promise<RenderPageDto> {
-        const other_company_services = await this.companyService.findAllServices(params.id)
+    async other_company_services(@Req() req: Request, @Param('id') id: string): Promise<RenderPageDto> {
+        const other_company_services = await this.companyService.findAllServices(id)
 
-        return { title: `Services`, merch_Array: other_company_services}
+        return { title: `Services`, user: req.session.user, merch_Array: other_company_services}
     }
 }

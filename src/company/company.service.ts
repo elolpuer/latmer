@@ -21,7 +21,10 @@ export class CompanyService {
     ){}
     
     async findAll(): Promise<AllCompaniesDto[]>{
-        return await this.companyRepository.find()
+        const companies = await this.companyRepository.createQueryBuilder()
+            .select(["id", "email", "username"])
+            .getRawMany()
+        return companies
     }
 
     async findOneEmail(email: string): Promise<Company>{
