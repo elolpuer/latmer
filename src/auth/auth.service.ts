@@ -6,11 +6,10 @@ import { ConsumerService } from '../consumer/consumer.service';
 
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { AuthUserDto } from 'src/dto/auth-user.dto';
-import { Company } from '../entities/company.entity'
+// import { Company } from '../entities/company.entity'
 import { SessionUserDto } from '../dto/session-user.dto'
 
 import * as bcrypt from 'bcrypt'
-import * as jwt from 'jsonwebtoken'
 
 @Injectable()
 export class AuthService {
@@ -90,7 +89,7 @@ export class AuthService {
                 return res.status(400).json({message:'Wrong params'})
             }
 
-            return await this.createSessionUser(userComp.id, userComp.IsCompany)
+            return await this.createSessionUser(userComp.id, userComp.username ,userComp.IsCompany)
             
             
         } else if (userCons){
@@ -100,7 +99,7 @@ export class AuthService {
                 return res.status(400).json({message:'Wrong params'})
             }
 
-            return await this.createSessionUser(userCons.id, userCons.IsCompany)
+            return await this.createSessionUser(userCons.id, userCons.username,userCons.IsCompany)
 
         }
         else {
@@ -109,9 +108,10 @@ export class AuthService {
         
     }
 
-    async createSessionUser(id: string, isCompany: boolean): Promise<SessionUserDto> {
+    async createSessionUser(id: string, username: string ,isCompany: boolean): Promise<SessionUserDto> {
         return {
             id,
+            username,
             isCompany
         }
     }

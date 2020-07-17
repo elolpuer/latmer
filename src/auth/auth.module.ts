@@ -7,11 +7,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport'
 import { Company } from 'src/entities/company.entity';
 import { Consumer } from '../entities/consumers.entity';
+import { Product } from 'src/entities/product.entity';
+import { Service } from 'src/entities/service.entity';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Company, Consumer]),
+    TypeOrmModule.forFeature([Company, Consumer, Product, Service]),
     PassportModule
   ],
   controllers: [AuthController],

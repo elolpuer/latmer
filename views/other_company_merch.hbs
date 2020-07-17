@@ -1,15 +1,15 @@
-{{#if merch.length}}
+{{#if merch_Array.length}}
     <h1>Merch</h1>
-    {{#each merch}}
+    {{#each merch_Array}}
         
             <div>
-            <p>{{dataValues.name}}</p>
-            <p>{{dataValues.description}}</p>
-            {{#if dataValues.when_create}}
-              <p><time>{{dataValues.when_create}}</time></p>
-              <p><time>{{dataValues.when_w_destroy}}</time></p>
+            <p>{{name}}</p>
+            <p>{{description}}</p>
+            {{#if expir_date_from}}
+              <p><time>{{expir_date_from}}</time></p>
+              <p><time>{{expir_date_to}}</time></p>
             {{/if}}
-            <p>{{dataValues.image}}</p>
+            <p>{{img}}</p>
             </div>
             </a>
 

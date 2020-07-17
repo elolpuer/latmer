@@ -9,4 +9,5 @@ export class AppController{
     main(@Req() req: Request): RenderPageDto{
         return { title: 'Index', user: req.session.user}
     }
+
 }
