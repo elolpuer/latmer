@@ -18,11 +18,8 @@ export class Product{
     @Column({type: 'text'})
     description?: string
 
-    @Column({type: "date"})
-    expir_date_from?: string
-
-    @Column({type: "date"})
-    expir_date_to?: string
+    @Column()
+    price: string
 
     @Column()
     img?: string

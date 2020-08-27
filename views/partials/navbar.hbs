@@ -10,15 +10,22 @@
        <li class="nav-item active">
         <a class="nav-link" href="/company/all">Companies</a>
       </li>      
-      {{#if user}}
+      {{#if user.isCompany}}      
       <li class="nav-item active">
         <a class="nav-link" href="/company/profile">{{user.username}}</a>
       </li>
-      {{else}} 
-      <li class="nav-item active">
-        <a class="nav-link" href="/auth/login">Login</a>
-      </li>
-      {{/if}}     
+      {{else}}
+        {{#if user}} 
+          <li class="nav-item active">
+            <a class="nav-link" href="/consumer/profile">{{user.username}}</a>
+          </li>
+        {{else}}
+          <li class="nav-item active">
+            <a class="nav-link" href="/auth/login">Login</a>
+          </li>  
+        {{/if}}  
+      {{/if}}  
+       
     </ul>
   </div>
 </nav>

@@ -3,7 +3,6 @@ export interface MerchDto {
     company_id: string
     name: string
     description?: string
-    expir_date_from?: string
-    expir_date_to?: string
+    price: string
     img?: string
 }

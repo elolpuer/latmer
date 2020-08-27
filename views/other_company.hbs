@@ -1,6 +1,31 @@
+<script type="text/javascript" language="javascript">
+    $('#enter').click(function(){  
+
+     $({ 
+           url: '/consumer/add-favorites',
+           type: 'POST',
+           cache: false, 
+           data: { field1: 3, field2: 1 }, 
+           success: function(data){
+              alert('Success!')
+           }
+           , error: function(jqXHR, textStatus, err){
+               alert('text status '+textStatus+', err '+err)
+           }
+        })
+     });     
+</script>
+
+
+<button type="button" class="btn btn-light" id="enter">Добавить в избранное</button>
 <p>
-    <a href="/{{company.username}}/products-{{company.id}}">products</a>
+    <h1>About company</h1>
+    <h3><p>Company - {{company.username}}</p></h3>
+    <h3><p>Email - {{company.email}}</p></h3>
 </p>
 <p>
-     <a href="/{{company.username}}/services-{{company.id}}">services</a>
+    <a href="/{{company.username}}/products-{{company.id}}"><h3>Products</h3></a>
+</p>
+<p>
+     <a href="/{{company.username}}/services-{{company.id}}"><h3>Services</h3></a>
 </p>

@@ -63,8 +63,7 @@ export class CompanyService {
                 product.name = merchDto.name;
                 product.company_id = id;
                 product.description = merchDto.description;
-                product.expir_date_from = merchDto.expir_date_from;
-                product.expir_date_to = merchDto.expir_date_to;
+                product.price = merchDto.price;
                 product.img = merchDto.img;
 
         await this.productRepository.save(product)        
@@ -82,6 +81,7 @@ export class CompanyService {
             service.name = merchDto.name;
             service.company_id = id,
             service.description = merchDto.description
+            service.price = merchDto.price
             service.img = merchDto.img
 
         await this.serviceRepository.save(service)
@@ -89,5 +89,11 @@ export class CompanyService {
 
     async deleteService(id: string): Promise<void> {
         await this.serviceRepository.delete({id})
+    }
+
+    async deleteCompany(id: string): Promise<void> {
+        await this.productRepository.delete({company_id: id})
+        await this.serviceRepository.delete({company_id: id})
+        await this.companyRepository.delete({id})
     }
 }

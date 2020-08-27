@@ -89,7 +89,7 @@ export class AuthService {
                 return res.status(400).json({message:'Wrong params'})
             }
 
-            return await this.createSessionUser(userComp.id, userComp.username ,userComp.IsCompany)
+            return await this.createSessionUser(userComp.id, userComp.username, userComp.email, userComp.IsCompany)
             
             
         } else if (userCons){
@@ -99,7 +99,7 @@ export class AuthService {
                 return res.status(400).json({message:'Wrong params'})
             }
 
-            return await this.createSessionUser(userCons.id, userCons.username,userCons.IsCompany)
+            return await this.createSessionUser(userCons.id, userCons.username, userCons.email, userCons.IsCompany)
 
         }
         else {
@@ -108,10 +108,11 @@ export class AuthService {
         
     }
 
-    async createSessionUser(id: string, username: string ,isCompany: boolean): Promise<SessionUserDto> {
+    async createSessionUser(id: string, username: string, email: string, isCompany: boolean): Promise<SessionUserDto> {
         return {
             id,
             username,
+            email,
             isCompany
         }
     }

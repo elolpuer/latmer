@@ -3,12 +3,9 @@
     {{#each merch_Array}}
         
             <div>
-            <p>{{name}}</p>
-            <p>{{description}}</p>
-            {{#if expir_date_from}}
-              <p><time>{{expir_date_from}}</time></p>
-              <p><time>{{expir_date_to}}</time></p>
-            {{/if}}
+            <p>Name - {{name}}</p>
+            <p>Description - {{description}}</p>
+            <p>Price - {{price}} ₽</p>
             <p>{{img}}</p>
             </div>
             </a>

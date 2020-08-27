@@ -7,6 +7,8 @@ import * as session from 'express-session';
 import * as passport from 'passport'
 import * as redis from 'redis';
 import * as connect from 'connect-redis'
+import * as config from 'config'
+
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -19,6 +21,7 @@ async function bootstrap() {
   app.setViewEngine('hbs');
   app.set('view options', { layout: '/layouts/main' });
   hbs.registerPartials(join(__dirname, "../", "/views/partials"));
+  
 
   app.use(
     session({
@@ -29,7 +32,7 @@ async function bootstrap() {
         sameSite: true,
         secure: false
         },
-    store: new redisStore({host: 'localhost', port: 6379, client: redisClient, ttl: '216000'})
+    store: new redisStore({host: config.get('REDIS_HOST'), port: config.get('REDIS_PORT'), client: redisClient, ttl: '216000'})
       }
     )
   )

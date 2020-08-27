@@ -8,6 +8,7 @@ export interface RenderPageDto {
     allCompanies?: AllCompaniesDto[],
     company?: OtherCompanyDto,
     merch_Title?: string,
+    id?:string,
     isProducts?: boolean,
     merch_Array?:MerchDto[]
 }

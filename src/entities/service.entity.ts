@@ -19,6 +19,9 @@ export class Service{
     description?: string
 
     @Column()
+    price: string
+
+    @Column()
     img?: string
 
 }

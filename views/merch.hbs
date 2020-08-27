@@ -1,4 +1,4 @@
-{{> navbar_user}}
+{{> navbar_user_company}}
 <div class="title"><h2>Add your {{merch_Title}}</h2></div>
 {{#if isProducts}}
     <form action="/company/profile/products" method="POST">
@@ -7,16 +7,7 @@
 {{/if}}  
     <input class="form-control form-control-lg" type="text" placeholder="Name" name="name" >
     <input class="form-control form-control-lg" type="text" placeholder="Description" name="description" >
-    {{#if isProducts}}
-    <p>
-        <label for="localdate">From: </label>
-        <input type="date" id="localdate" name="expir_date_from" >
-    </p>
-    <p>
-        <label for="localdate">To: </label>
-        <input type="date" id="localdate" name="expir_date_to" >
-    </p>
-    {{/if}}
+    <input class="form-control form-control-lg" type="text" placeholder="Price(в рублях)" name="price" >
     <button type="submit" class="btn btn-dark">Add</button>   
 </form>
 {{#if isProducts}}    
@@ -25,8 +16,7 @@
                 <div>
                     <p>{{name}}</p>
                     <p>{{description}}</p>
-                        <p><time>{{expir_date_from}}</time></p>
-                        <p><time>{{expir_date_to}}</time></p>
+                    <p>{{price}} ₽</p>
                     <p>{{image}}</p>
                 </div>
                 <button type="submit" class="btn btn-danger">Delete</button>
@@ -38,6 +28,7 @@
                 <div>
                     <p>{{name}}</p>
                     <p>{{description}}</p>
+                    <p>{{price}} ₽</p>
                     <p>{{img}}</p>
                 </div>
                 <button type="submit" class="btn btn-danger">Delete</button>
